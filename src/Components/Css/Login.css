@@ -1,0 +1,46 @@
+.container{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; 
+    align-content: center;
+}
+.login-logo-img {
+    width: 300px;
+    height: auto; 
+}
+
+.login-icon{
+    width: 20px;
+}
+
+.login-header{
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 500;
+}
+.no-account{
+    font-size: .8em;
+    text-align: center;
+    font-weight: 500;
+}
+
+.btn-outline-primary{
+    --bs-btn-font-weight: 600;
+    --bs-btn-color: rgb(0, 80, 165);
+    --bs-btn-bg: var(--bd-violet-bg);
+    --bs-btn-border-color: rgb(118, 178, 241);
+    --bs-btn-hover-color: var(--bs-white);
+    --bs-btn-hover-bg: rgb(118, 178, 241); 
+    --bs-btn-hover-border-color: rgb(118, 178, 241);
+    
+}
+.invalid-error{
+    background-color: rgb(197, 76, 76);
+    color: white;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    width: 250px;
+    text-align: center;
+    
+}
