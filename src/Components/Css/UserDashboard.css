@@ -1,0 +1,127 @@
+
+.main-content{
+    position: relative;
+    background-color: rgb(203, 227, 229);
+    margin-left: 20%;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    height: 535px;
+    font-family: cursive;
+}
+
+.body-container{
+    background-color: rgb(152, 212, 216);
+    width: 100%;
+    position: fixed;
+}
+h1{
+    font-size: 30px;
+    padding-left: 20px;
+    padding-top: 20px;
+    font-weight: 400;
+}
+hr{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.content{
+    overflow: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    height: 470px;
+    scroll-behavior: smooth;
+}
+.boxes-container {
+    display: flex;
+}
+.box1 {
+    border: 2px sold white;
+    position: relative;
+    width: 90%;
+    height: 300px;
+    margin-left: 50px;
+    border-radius: 15px;
+    overflow: hidden; /* Ensures the image is cropped within the box */
+}
+
+.trek-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit:cover; /* Makes the image cover the entire box */
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease; 
+}
+.box1__description {
+    margin-top: 40px;
+    padding: 20px;
+    position: absolute;
+    color: #ffffff;
+    visibility: hidden;
+    opacity: 0;
+    font-size: 20px;
+    transition: opacity .2s, visibility .2s;
+}
+.add-trek{
+    background-color: transparent;
+    color: #ffffff; 
+    border-radius: 10px;
+    border: 1px solid #ffffff; 
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}  
+.add-trek:hover{
+    background-color:transparent;
+    border: 1px solid #000000; 
+    color: black;
+}
+.box1:hover .trek-img {
+    visibility: visible;
+    opacity: 0.8;
+    transform: scale(1.1);
+   
+  }
+  
+.box1:hover .box1__description {
+    visibility: visible;
+    opacity: 1;
+  }
+.box2{
+    float: left;
+    width: 35%;
+    height: 300px;
+    border-top-left-radius: 15px ;
+    border-bottom-left-radius: 15px;
+    margin-left: 50px;
+    background-color: rgb(81, 77, 86);
+    background-image: url("../Assets/trek2.jpg");
+    background-size: cover; 
+    transition: opacity 0.3s ease, transform 0.3s ease; 
+}
+.box2:hover{
+    transform: scale(1.1);
+
+}
+
+.box3{
+    float: right;
+    width: 52%;
+    height: 300px;
+    margin-left: 30px;
+    border-radius: 20px;
+
+    background-color: rgb(81, 77, 86);
+    background-image: url("../Assets/trek3.jpg");
+    background-size: cover; 
+    transition: opacity 0.3s ease, transform 0.3s ease; 
+
+}
+.box3:hover{
+    transform: scale(1.1);
+
+}

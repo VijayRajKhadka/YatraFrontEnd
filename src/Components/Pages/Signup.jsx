@@ -8,8 +8,7 @@ import password_icon from '../Assets/password.png'
 import phone_icon from '../Assets/phone.png'
 import user_icon from '../Assets/user.png'
 import {useEffect, useState} from 'react';
-
-
+import { BASE_URL } from "../Constants";
 
 const Signup = () => {
 
@@ -18,39 +17,42 @@ const Signup = () => {
     const [contact, setContact]=useState("");
     const [password, setPassword]=useState("");
     const [confirm_password, setConfirmPassword]=useState("");
+    const [profile, setProfile]=useState("");
     const [errors, setErrors] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
 
-    function registerUser() {
-        setIsLoading(true);
-        let data = { name, email, contact, password, confirm_password };
-        console.warn(data);
-        fetch("http://127.0.0.1:8000/api/register", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(result => {
-            console.warn("result", result);
-            return result.json();
-        }).then(responseData => {
-            console.warn("data", responseData);
-            if (responseData.success === false) {
-                setErrors(responseData.message);
-            } else {
-                window.location.href = '/login';
-            }
-        }).catch(error => {
-            console.error('Error:', error);
-        })
-        .finally(() => {
-            setIsLoading(false); // Set isLoading to false when registration completes
-        });
-    }
+   function registerUser() {
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('contact', contact);
+    formData.append('password', password);
+    formData.append('confirm_password', confirm_password);
+    formData.append('profile', profile); // Assuming 'profile' is the selected file
+
+    fetch(BASE_URL + "register", {
+        method: "POST",
+        body: formData
+    })
+    .then(result => result.json())
+    .then(responseData => {
+        if (responseData.success === false) {
+            setErrors(responseData.message);
+        } else {
+            window.location.href = '/login';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    })
+    .finally(() => {
+        setIsLoading(false);
+    });
+}
+
     return(
         <div className="container">
     <div>
@@ -106,6 +108,21 @@ const Signup = () => {
             <input type={showPassword ? "text" : "password"} className="form-control" value={confirm_password} onChange={(e)=>{setConfirmPassword(e.target.value)}} placeholder="re-typepassword" aria-label="Username" aria-describedby="basic-addon1"/>
         
         </div>
+        <input 
+    class="form-control" 
+    type="file" 
+    id="formFile" 
+    onChange={(e) => { 
+        const file = e.target.files[0]; // Get the first file selected by the user
+        if (file) {
+            // Extract the file name
+            setProfile(file); // Set the file object as profile image
+            
+        }
+    }} 
+/>
+<p id="file-name"></p>
+
         
          <div className="d-grid gap-2 col-12 mx-auto">
             <button type="button" onClick={registerUser} className="btn btn-outline-primary">Register</button>
