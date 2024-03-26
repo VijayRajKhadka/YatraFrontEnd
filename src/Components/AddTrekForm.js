@@ -1,0 +1,226 @@
+import {React,useState} from "react";
+import "./Css/AddTrekForm.css";
+import { BASE_URL } from "./Constants";
+
+function AddTrekForm(){
+
+    const [name, setName]=useState("");
+    const [description, setDescription]=useState("");
+    const [location, setLoation]=useState("");
+    const [category, setCategory]=useState("");
+    const [altitude, setAltitude]=useState("");
+    const [difficulty, setDifficulty]=useState("");
+    const [no_of_days, setNoOfDays]=useState("");
+    const [emergency_no, setEmergencyNo]=useState("");
+    const [map_url, setMapUrl]=useState("");
+    const [budgetRange, setBudgetRange]=useState("");
+    const [images, setImages]=useState("");
+
+
+    function getImagePreview(event) {
+    var imagediv = document.getElementById("preview");
+    imagediv.innerHTML = "";
+
+    for (let i = 0; i < event.target.files.length; i++) {
+        var image = URL.createObjectURL(event.target.files[i]);
+        var imgContainer = document.createElement("div");
+        imgContainer.className = "image-container";
+        var newimg = document.createElement("img");
+        newimg.src = image;
+        imgContainer.appendChild(newimg);
+        imagediv.appendChild(imgContainer);
+        }
+    }
+
+    function getMapPreview(event) {
+   
+        var image = URL.createObjectURL(event.target.files[0]);
+        var imagediv = document.getElementById("mappreview");
+        var newimg = document.createElement("img");
+        imagediv.innerHTML = "";
+        newimg.src = image;
+        newimg.width = "200";
+        imagediv.appendChild(newimg);
+    }
+    
+    function registerTrek() {
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('description', description);
+        formData.append('location', location);
+        formData.append('category', category);
+        formData.append('altitude', altitude);
+        formData.append('difficulty', difficulty);
+        formData.append('no_of_days', no_of_days);
+        formData.append('emergency_no', emergency_no);
+        formData.append('map_url', map_url);
+        formData.append('budgetRange', budgetRange);
+        formData.append('images[]', images);
+
+        
+        console.warn(images);
+    
+        fetch(BASE_URL + "addTrek", {
+            method: "POST",
+            body: formData
+        })
+        .then(result => result.json())
+        .then(responseData => {
+            if (responseData.success === false) {
+                console.warn(responseData.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+        .finally(() => {
+            // Any final actions
+        });
+    
+
+    }
+return(
+  <div className="container">
+        
+        <br/>
+        <div className="form-left">
+            <div class="mb-3" >
+                <label for="trekname" class="form-label">Trek Name</label>
+                <input type="text" class="form-control" value={name} onChange={(e)=>{setName(e.target.value)}} id="trekname" placeholder="eg. Annapurna Base Camp Trek" required/>
+            </div>
+            <div class="mb-3" >
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" value={location} onChange={(e)=>{setLoation(e.target.value)}} id="location" placeholder="eg. Kaski" required/>
+            </div>
+            <div class="mb-3" >
+                <label for="description" class="form-label">Description</label>
+                <textarea type="text" class="form-control" value={description} onChange={(e)=>{setDescription(e.target.value)}} id="description" placeholder="Please try to write detailed instruction for the trek"
+                required/>
+            </div>
+            <label class="form-label">Difficulty (Click to change)</label>
+
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group 1">
+                <input type="radio" class="btn-check" name="btnradio1" value="Easy" onChange={(e)=>{setDifficulty(e.target.value)}} id="btnradio1" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="btnradio1">Easy</label>
+
+                <input type="radio" class="btn-check" name="btnradio1" value="Intermediate" onChange={(e)=>{setDifficulty(e.target.value)}} id="btnradio2" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="btnradio2">Intermediate</label>
+
+                <input type="radio" class="btn-check" name="btnradio1" value="Hard" onChange={(e)=>{setDifficulty(e.target.value)}} id="btnradio3" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="btnradio3">Hard</label>
+
+                <input type="radio" class="btn-check" name="btnradio1" value="Extreme" onChange={(e)=>{setDifficulty(e.target.value)}} id="btnradio4" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="btnradio4">Extreme</label>
+            </div>
+
+            <br/>
+            <br/>
+            <label class="form-label">Category (Click to change)</label>
+
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group 2">
+                <input type="radio" class="btn-check" name="btnradio2" value="Hiking" onChange={(e)=>{setCategory(e.target.value)}} id="hiking" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="hiking">Hiking</label>
+
+                <input type="radio" class="btn-check" name="btnradio2" value="Short Trek" onChange={(e)=>{setCategory(e.target.value)}} id="short-trek" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="short-trek">Short-Trek</label>
+
+                <input type="radio" class="btn-check" name="btnradio2" value="Long Trek" onChange={(e)=>{setCategory(e.target.value)}} id="long-trek" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="long-trek">Long-Trek</label>
+
+                <input type="radio" class="btn-check" name="btnradio2" value="High Altitude Trek" onChange={(e)=>{setCategory(e.target.value)}} id="high-trek" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="high-trek">High-Altitude-Trek</label>
+
+                <input type="radio" class="btn-check" name="btnradio2" value="Wild Trek" onChange={(e)=>{setCategory(e.target.value)}} id="wild-trek" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="wild-trek">Wild-Trek</label>
+            </div>
+
+            <br/>
+            <br/>
+            <div class="mb-3">
+                    <label for="formFile" class="form-label">Trek Images (Mulitple If Possible)</label>
+                    <input 
+                        class="form-control" 
+                        type="file" 
+                        onChange={(e) => { 
+                            const files = e.target.files;  
+                                setImages(Array.from(files)); 
+                                getImagePreview(e);
+                        }} 
+                        id="formFile" 
+                        multiple 
+                    />
+
+            </div>
+
+            <div id="preview"></div>
+
+            
+
+
+        </div>
+
+        <div className="form-right">
+                <div class="mb-3" >
+                    <label for="altitude" class="form-label">Altitude (In Meters)</label>
+                    <input type="text" class="form-control" id="altitude" value={altitude} onChange={(e)=>{setAltitude(e.target.value)}} placeholder="eg. 2500m" required/>
+                </div>
+                <div class="mb-3" >
+                    <label for="no-of-days" class="form-label">Required Days for Trek</label>
+                    <input type="text" class="form-control" id="no-of-days" value={no_of_days} onChange={(e)=>{setNoOfDays(e.target.value)}} placeholder="eg 7-10" required/>
+                </div>
+
+                <div class="mb-3" >
+                    <label for="emergency-no" class="form-label">Emergency No</label>
+                    <input type="text" class="form-control" id="emergency-no" value={emergency_no} onChange={(e)=>{setEmergencyNo(e.target.value)}} placeholder="eg 5512435/9844123435" required/>
+                </div>
+
+                <label class="form-label">Budget Range (In NRs)</label>
+
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group 2">
+                    <input type="radio" class="btn-check" name="btnradio3" id="on-five" value="1,000-5,000" onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
+                    <label class="btn btn-outline-primary" for="on-five">1,000-5,000</label>
+
+                    <input type="radio" class="btn-check" name="btnradio3" id="five-ten" value="5,000-10,000" onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
+                    <label class="btn btn-outline-primary" for="five-ten">5,000-10,000</label>
+
+                    <input type="radio" class="btn-check" name="btnradio3" id="ten-twenty" value="10,000-20,000" onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
+                    <label class="btn btn-outline-primary" for="ten-twenty">10,000-20,000</label>
+
+                    <input type="radio" class="btn-check" name="btnradio3" id="twenty-thirty" value="20,000-30,000" onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
+                    <label class="btn btn-outline-primary" for="twenty-thirty">20,000-30,000</label>
+
+                    <input type="radio" class="btn-check" name="btnradio3" id="thrity-fifty" value="30,000-50,000" onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
+                    <label class="btn btn-outline-primary" for="thrity-fifty">30,000-50,000</label>
+
+                    <input type="radio" class="btn-check" name="btnradio3" id="fifty-plus" value="50,000+" onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
+                    <label class="btn btn-outline-primary" for="fifty-plus">50,000+</label>
+                    </div>
+
+                <br/>
+                <br/>
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Trek Map Image</label>
+                    <input 
+                        class="form-control" 
+                        type="file" 
+                        onChange={(e) => { 
+                            const file = e.target.files[0]; 
+                                if (file) {    
+                                    setMapUrl(file); 
+                                    getMapPreview(e);     
+                                }
+                           
+                        }} 
+                        id="formFile" 
+                    />
+                </div>
+                <div  className="mapdiv" id="mappreview"></div>
+                <button className="addtrekbutton" onClick={registerTrek}>Add Your Journey</button>
+        </div>
+        <br/>
+        
+  </div>  
+
+);
+}
+export default AddTrekForm

@@ -1,7 +1,7 @@
 
 .sidebar {
     width: 20%;
-    height: 535px;
+    height: 100%;
     position: absolute;
     background-color: #ffffff;
     padding-left:10px ;
@@ -9,6 +9,7 @@
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     font-family: sans-serif;
+    
 }
 
 .profile-image {

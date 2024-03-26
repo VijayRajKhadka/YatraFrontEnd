@@ -7,7 +7,7 @@ import email_icon from '../Assets/email.png'
 import password_icon from '../Assets/password.png'
 import phone_icon from '../Assets/phone.png'
 import user_icon from '../Assets/user.png'
-import {useEffect, useState} from 'react';
+import { useState} from 'react';
 import { BASE_URL } from "../Constants";
 
 const Signup = () => {
@@ -31,8 +31,8 @@ const Signup = () => {
     formData.append('contact', contact);
     formData.append('password', password);
     formData.append('confirm_password', confirm_password);
-    formData.append('profile', profile); // Assuming 'profile' is the selected file
-
+    formData.append('profile', profile); 
+    
     fetch(BASE_URL + "register", {
         method: "POST",
         body: formData

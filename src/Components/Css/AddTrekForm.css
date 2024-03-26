@@ -1,0 +1,49 @@
+
+.form-left{
+    margin: 20px;
+    float: left;
+    width: 45%;
+}
+.form-right{
+    margin: 20px;
+    float: right;
+    width: 45%;
+}
+.form-label::after {
+    content: "*";
+    color: red; 
+    margin-left: 2px; 
+}
+.addtrekbutton{
+    width: 100%;
+    border-radius: 15px;
+    background-color: rgb(22, 72, 112);
+    color: white;
+    border: none;
+    padding: 20px;
+    float: right;
+    margin-top:30px ;
+
+}
+.addtrekbutton:hover{
+    background-color: rgb(13, 47, 77);
+    color: white;
+    box-shadow: 5px 10px 8px #888888;
+}
+
+#preview {
+    display: flex; 
+    flex-wrap: wrap; 
+  }
+  
+.image-container {
+    width: calc(33.33% - 20px); 
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .image-container img {
+    width: 100%; /* Ensure all images fill their containers */
+  }
+
+
