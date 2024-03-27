@@ -15,6 +15,10 @@ function AddTrekForm(){
     const [map_url, setMapUrl]=useState("");
     const [budgetRange, setBudgetRange]=useState("");
     const [images, setImages]=useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState(null);
+    const [image_errors, setImageErrors] = useState(null);
+
 
 
     function getImagePreview(event) {
@@ -44,6 +48,7 @@ function AddTrekForm(){
     }
     
     function registerTrek() {
+        setIsLoading(true);
         const formData = new FormData();
         formData.append('name', name);
         formData.append('description', description);
@@ -55,35 +60,68 @@ function AddTrekForm(){
         formData.append('emergency_no', emergency_no);
         formData.append('map_url', map_url);
         formData.append('budgetRange', budgetRange);
-        formData.append('images[]', images);
 
-        
+        for (let i = 0; i < images.length; i++) {
+            formData.append('images[]', images[i]);
+        }
         console.warn(images);
-    
+        console.warn(formData);
+
         fetch(BASE_URL + "addTrek", {
             method: "POST",
             body: formData
         })
         .then(result => result.json())
         .then(responseData => {
-            if (responseData.success === false) {
-                console.warn(responseData.message);
-            }
+           if(responseData.success===false){
+            setErrors(responseData.message);
+           }
         })
         .catch(error => {
-            console.error('Error:', error);
+            if (error && error.response && error.response.status === 413) {
+                setImageErrors('Content Too Large, Try Uploading Small Images');
+            } else {
+                setImageErrors('Error:',error);
+            }
         })
         .finally(() => {
-            // Any final actions
+            setIsLoading(false);
         });
     
 
     }
 return(
+
   <div className="container">
+    
+        {isLoading && (
+            <div className="loader-container">
+                
+                <div className="loader"></div>
+                <div><p>Large Files Takes Time to Upload...</p></div>
+            </div>
+        )}
         
-        <br/>
+       
+        
+        <div className="form-container">
+        {errors && (
+            <div className="error-container">
+            <div className="invalid-error" role="alert">
+            {Object.keys(errors).map(key => (
+                errors[key].map((message, index) => (
+                    <div key={key + index}>{message}</div>
+                ))
+            ))}
+        </div>
+        </div>
+        )}
+        
+            {image_errors &&(
+                <div className="invalid-error" role="alert">{image_errors} </div>)}
+       
         <div className="form-left">
+            
             <div class="mb-3" >
                 <label for="trekname" class="form-label">Trek Name</label>
                 <input type="text" class="form-control" value={name} onChange={(e)=>{setName(e.target.value)}} id="trekname" placeholder="eg. Annapurna Base Camp Trek" required/>
@@ -97,46 +135,51 @@ return(
                 <textarea type="text" class="form-control" value={description} onChange={(e)=>{setDescription(e.target.value)}} id="description" placeholder="Please try to write detailed instruction for the trek"
                 required/>
             </div>
+
             <label class="form-label">Difficulty (Click to change)</label>
 
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group 1">
-                <input type="radio" class="btn-check" name="btnradio1" value="Easy" onChange={(e)=>{setDifficulty(e.target.value)}} id="btnradio1" autocomplete="off"/>
+                <input type="radio" class="btn-check" name="Easy" value="Easy" checked={difficulty === "Easy"} onChange={(e)=>{setDifficulty(e.target.value)}} id="btnradio1" autocomplete="off"/>
                 <label class="btn btn-outline-primary" for="btnradio1">Easy</label>
 
-                <input type="radio" class="btn-check" name="btnradio1" value="Intermediate" onChange={(e)=>{setDifficulty(e.target.value)}} id="btnradio2" autocomplete="off"/>
+                <input type="radio" class="btn-check" name="Intermediate" value="Intermediate" checked={difficulty === "Intermediate"} onChange={(e)=>{setDifficulty(e.target.value)}} id="btnradio2" autocomplete="off"/>
                 <label class="btn btn-outline-primary" for="btnradio2">Intermediate</label>
 
-                <input type="radio" class="btn-check" name="btnradio1" value="Hard" onChange={(e)=>{setDifficulty(e.target.value)}} id="btnradio3" autocomplete="off"/>
+                <input type="radio" class="btn-check" name="Hard" value="Hard" checked={difficulty === "Hard"} onChange={(e)=>{setDifficulty(e.target.value)}} id="btnradio3" autocomplete="off"/>
                 <label class="btn btn-outline-primary" for="btnradio3">Hard</label>
 
-                <input type="radio" class="btn-check" name="btnradio1" value="Extreme" onChange={(e)=>{setDifficulty(e.target.value)}} id="btnradio4" autocomplete="off"/>
+                <input type="radio" class="btn-check" name="Extreme" value="Extreme" checked={difficulty === "Extreme"} onChange={(e)=>{setDifficulty(e.target.value)}} id="btnradio4" autocomplete="off"/>
                 <label class="btn btn-outline-primary" for="btnradio4">Extreme</label>
             </div>
+
 
             <br/>
             <br/>
             <label class="form-label">Category (Click to change)</label>
 
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group 2">
-                <input type="radio" class="btn-check" name="btnradio2" value="Hiking" onChange={(e)=>{setCategory(e.target.value)}} id="hiking" autocomplete="off"/>
-                <label class="btn btn-outline-primary" for="hiking">Hiking</label>
+                <input type="radio" class="btn-check" name="Hiking" value="Hiking" checked={category === "Hiking"} onChange={(e)=>{setCategory(e.target.value)}} id="btnradio5" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="btnradio5">Hiking</label>
 
-                <input type="radio" class="btn-check" name="btnradio2" value="Short Trek" onChange={(e)=>{setCategory(e.target.value)}} id="short-trek" autocomplete="off"/>
-                <label class="btn btn-outline-primary" for="short-trek">Short-Trek</label>
+                <input type="radio" class="btn-check" name="Short-Trek" value="Short-Trek" checked={category === "Short-Trek"} onChange={(e)=>{setCategory(e.target.value)}} id="btnradio6" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="btnradio6">Short-Trek</label>
 
-                <input type="radio" class="btn-check" name="btnradio2" value="Long Trek" onChange={(e)=>{setCategory(e.target.value)}} id="long-trek" autocomplete="off"/>
-                <label class="btn btn-outline-primary" for="long-trek">Long-Trek</label>
+                <input type="radio" class="btn-check" name="Long-Trek" value="Long-Trek" checked={category === "Long-Trek"} onChange={(e)=>{setCategory(e.target.value)}} id="btnradio7" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="btnradio7">Long-Trek</label>
 
-                <input type="radio" class="btn-check" name="btnradio2" value="High Altitude Trek" onChange={(e)=>{setCategory(e.target.value)}} id="high-trek" autocomplete="off"/>
-                <label class="btn btn-outline-primary" for="high-trek">High-Altitude-Trek</label>
+                <input type="radio" class="btn-check" name="High-Altitude-Trek" value="High-Altitude-Trek" checked={category === "High-Altitude-Trek"} onChange={(e)=>{setCategory(e.target.value)}} id="btnradio8" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="btnradio8">High-Altitude-Trek</label>
 
-                <input type="radio" class="btn-check" name="btnradio2" value="Wild Trek" onChange={(e)=>{setCategory(e.target.value)}} id="wild-trek" autocomplete="off"/>
-                <label class="btn btn-outline-primary" for="wild-trek">Wild-Trek</label>
+                <input type="radio" class="btn-check" name="Wild-Trek" value="Wild-Trek" checked={category === "Wild-Trek"} onChange={(e)=>{setCategory(e.target.value)}} id="btnradio9" autocomplete="off"/>
+                <label class="btn btn-outline-primary" for="btnradio9">Wild-Trek</label>
             </div>
 
             <br/>
             <br/>
             <div class="mb-3">
+                    <span style={{color:"red"}}>Note*: Ensure size of map and images total are Maximum of 40 MB size.</span>
+                    <br/>
+                    <br/>
                     <label for="formFile" class="form-label">Trek Images (Mulitple If Possible)</label>
                     <input 
                         class="form-control" 
@@ -176,23 +219,23 @@ return(
 
                 <label class="form-label">Budget Range (In NRs)</label>
 
-                <div class="btn-group" role="group" aria-label="Basic radio toggle button group 2">
-                    <input type="radio" class="btn-check" name="btnradio3" id="on-five" value="1,000-5,000" onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group 3">
+                    <input type="radio" class="btn-check" name="btnradio2" id="on-five" value="1,000-5,000" checked={budgetRange === "1,000-5,000"} onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
                     <label class="btn btn-outline-primary" for="on-five">1,000-5,000</label>
 
-                    <input type="radio" class="btn-check" name="btnradio3" id="five-ten" value="5,000-10,000" onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
+                    <input type="radio" class="btn-check" name="btnradio2" id="five-ten" value="5,000-10,000" checked={budgetRange === "5,000-10,000"} onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
                     <label class="btn btn-outline-primary" for="five-ten">5,000-10,000</label>
 
-                    <input type="radio" class="btn-check" name="btnradio3" id="ten-twenty" value="10,000-20,000" onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
+                    <input type="radio" class="btn-check" name="btnradio2" id="ten-twenty" value="10,000-20,000" checked={budgetRange === "10,000-20,000"} onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
                     <label class="btn btn-outline-primary" for="ten-twenty">10,000-20,000</label>
 
-                    <input type="radio" class="btn-check" name="btnradio3" id="twenty-thirty" value="20,000-30,000" onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
+                    <input type="radio" class="btn-check" name="btnradio2" id="twenty-thirty" value="20,000-30,000" checked={budgetRange === "20,000-30,000"} onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
                     <label class="btn btn-outline-primary" for="twenty-thirty">20,000-30,000</label>
 
-                    <input type="radio" class="btn-check" name="btnradio3" id="thrity-fifty" value="30,000-50,000" onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
+                    <input type="radio" class="btn-check" name="btnradio2" id="thrity-fifty" value="30,000-50,000" checked={budgetRange === "30,000-50,000"} onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
                     <label class="btn btn-outline-primary" for="thrity-fifty">30,000-50,000</label>
 
-                    <input type="radio" class="btn-check" name="btnradio3" id="fifty-plus" value="50,000+" onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
+                    <input type="radio" class="btn-check" name="btnradio2" id="fifty-plus" value="50,000+" checked={budgetRange === "50,000+"} onChange={(e)=>{setBudgetRange(e.target.value)}} autocomplete="off"/>
                     <label class="btn btn-outline-primary" for="fifty-plus">50,000+</label>
                     </div>
 
@@ -220,6 +263,7 @@ return(
         <br/>
         
   </div>  
+  </div>
 
 );
 }
