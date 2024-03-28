@@ -7,7 +7,7 @@ import email_icon from '../Assets/email.png'
 import password_icon from '../Assets/password.png'
 import phone_icon from '../Assets/phone.png'
 import user_icon from '../Assets/user.png'
-import { useState} from 'react';
+import {useState} from 'react';
 import { BASE_URL } from "../Constants";
 
 const Signup = () => {
@@ -113,11 +113,9 @@ const Signup = () => {
     type="file" 
     id="formFile" 
     onChange={(e) => { 
-        const file = e.target.files[0]; // Get the first file selected by the user
-        if (file) {
-            // Extract the file name
-            setProfile(file); // Set the file object as profile image
-            
+        const file = e.target.files[0]; 
+        if (file) {    
+            setProfile(file);     
         }
     }} 
 />

@@ -45,21 +45,23 @@ hr{
 .box1 {
     border: 2px sold white;
     position: relative;
-    width: 90%;
+    width: 95%;
+    margin-left: 20px;
     height: 300px;
-    margin-left: 50px;
-    border-radius: 15px;
-    overflow: hidden; /* Ensures the image is cropped within the box */
+    overflow: hidden; 
+
 }
 
 .trek-img {
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit:cover; /* Makes the image cover the entire box */
+    object-fit:cover; 
     opacity: 1;
     transition: opacity 0.3s ease, transform 0.3s ease; 
+
 }
+
 .box1__description {
     margin-top: 40px;
     padding: 20px;
@@ -73,16 +75,16 @@ hr{
 .add-trek{
     background-color: transparent;
     color: #ffffff; 
-    border-radius: 10px;
     border: 1px solid #ffffff; 
     padding: 10px 20px;
     cursor: pointer;
-    transition: background-color 0.3s ease; 
 }  
 .add-trek:hover{
-    background-color:transparent;
-    border: 1px solid #000000; 
-    color: black;
+    background-color: transparent;    
+    border: 1px solid #ffffff; 
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
+
 }
 .box1:hover .trek-img {
     visibility: visible;
@@ -95,18 +97,19 @@ hr{
     visibility: visible;
     opacity: 1;
   }
-.box2{
-    float: left;
-    width: 35%;
-    height: 300px;
-    border-top-left-radius: 15px ;
-    border-bottom-left-radius: 15px;
-    margin-left: 50px;
-    background-color: rgb(81, 77, 86);
-    background-image: url("../Assets/trek2.jpg");
-    background-size: cover; 
+div.polaroid {
+    width: 284px;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 10px 10px 5px #aaaaaa;
     transition: opacity 0.3s ease, transform 0.3s ease; 
+    margin-left: 20px;
+    float: left;
 }
+div.polaroid:hover{
+    transform: scale(1.1);
+}
+  
 .box2:hover{
     transform: scale(1.1);
 
@@ -114,14 +117,9 @@ hr{
 
 .box3{
     float: right;
-    width: 52%;
+    width: 92%;
     height: 300px;
-    margin-left: 30px;
-    border-radius: 20px;
-
-    background-color: rgb(81, 77, 86);
-    background-image: url("../Assets/trek3.jpg");
-    background-size: cover; 
+    margin-left: 25px;
     transition: opacity 0.3s ease, transform 0.3s ease; 
 
 }

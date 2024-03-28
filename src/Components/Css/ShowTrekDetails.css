@@ -1,0 +1,34 @@
+.card {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  .expanded-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 60%;
+    background-color: rgba(255, 255, 255, 0.5); 
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 1000;
+  }
+  
+  .expanded-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .expanded-details {
+      margin-top: 10px;
+      padding: 10px;
+    }
+  }
+  
