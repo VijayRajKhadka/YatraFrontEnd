@@ -31,4 +31,12 @@
       padding: 10px;
     }
   }
+.watchContent{
+    transition: transform 0.3s ease;
+
+}
+.watchContent:hover{
+    transform: scale(1.05);
+
+  }
   

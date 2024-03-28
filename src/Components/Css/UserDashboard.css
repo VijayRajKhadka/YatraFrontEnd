@@ -97,6 +97,9 @@ hr{
     visibility: visible;
     opacity: 1;
   }
+.watch-content{
+    margin-top: 30px;
+}
 div.polaroid {
     width: 284px;
     padding: 10px;
