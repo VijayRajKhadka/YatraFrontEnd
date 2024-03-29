@@ -36,7 +36,7 @@ const UserDash = () => {
           name={userData ? userData.name : "Loading..."}
           image={
             userData
-              ? "http://127.0.0.1:8000/storage/" + userData.profile
+              ? userData.profile_url
               : null
           }
           email={userData ? userData.email : "Loading..."}

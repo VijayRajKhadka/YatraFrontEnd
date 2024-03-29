@@ -25,7 +25,7 @@ function ShowTrekDetails(){
                     <div className="row">
                         <div className="col-md-6">
                             {selectedTrek.trek_image.map((image, index) => (
-                                <img key={index} src={`http://127.0.0.1:8000/storage/${image.trek_image_name}`} className="expanded-image" alt={`Trek Image ${index}`} />
+                                <img key={index} src={`https://vijayrajkhadka.com.np/storage/app/public/${image.trek_image_name}`} className="expanded-image" alt={`Trek Image ${index}`} />
                             ))}
                         </div>
                         <div className="col-md-6">
@@ -46,7 +46,7 @@ function ShowTrekDetails(){
                     <div key={trek.trek_id} className="col-md-4 mb-4">
                         
                         <div className="card" onClick={() => handleClick(trek)}>
-                        <img src={`http://127.0.0.1:8000/storage/${trek.trek_image[0].trek_image_name}`} className="card-img-top" alt="Trek1" />
+                        <img src={`https://vijayrajkhadka.com.np/storage/app/public/${trek.trek_image[0].trek_image_name}`} className="card-img-top" alt="Trek1" />
 
                             <div className="card-body">
                                 <h5 className="card-title">{trek.name}</h5>
