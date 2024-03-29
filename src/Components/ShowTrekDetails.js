@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Css/ShowTrekDetails.css";
 import { BASE_URL } from "./Constants"; 
-import Trek1 from "./Assets/mountain.jpg";
 
 function ShowTrekDetails(){
     const [treks, setTreks] = useState([]);
