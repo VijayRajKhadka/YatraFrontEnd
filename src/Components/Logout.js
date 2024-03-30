@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 const Logout = ()=>{
     function clearToken(){
     Cookies.remove('token');
-    window.location.href = "/login";
+    window.location.href = "/";
     } 
     return (
         <p onClick={clearToken} style={{cursor: 'pointer',color:"red"}}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">

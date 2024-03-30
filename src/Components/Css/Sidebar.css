@@ -49,18 +49,21 @@
     text-align: center;
     white-space: nowrap;   
 }
-.nav-link{
+.nav-link-dash{
     white-space: nowrap;   
     padding-top: 10px;
     padding-bottom: 5px;
     margin-left: 20px;
     font-size: 17px;
-    color:rgb(155, 153, 200);
+    color:rgb(155, 153, 200) ;
+    text-decoration: none;
+
   
 }
-.nav-link:hover{
+.nav-link-dash:hover{
     font-size: 18px;
     color: rgb(85, 81, 185);
+    text-decoration: none;
 }
 .logout{
     margin:15px;

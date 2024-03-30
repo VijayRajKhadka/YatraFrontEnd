@@ -23,7 +23,7 @@ const Sidebar = (props) => {
       </div>
 
       <ul class="list-group">
-        <a href="#" class="nav-link">
+        <a href="#" class="nav-link-dash">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -37,7 +37,7 @@ const Sidebar = (props) => {
           &nbsp;&nbsp;Dashboard
         </a>
 
-        <a href="#" class="nav-link" >
+        <a href="#" class="nav-link-dash">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -51,7 +51,7 @@ const Sidebar = (props) => {
           &nbsp;&nbsp;Settings
         </a>
 
-        <a href="#" class="nav-link">
+        <a href="#" class="nav-link-dash">
           <TokenLogout />
         </a>
       </ul>

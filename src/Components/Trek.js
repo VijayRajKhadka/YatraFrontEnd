@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Css/UserDashboard.css";
-import Trek1 from "./Assets/mountain.jpg";
+import Trek1 from "./Assets/trekdash2.jpg";
 import Trek2 from "./Assets/trek.jpg";
 import TavelAgency from "./Assets/travelagency.jpg";
 
@@ -103,9 +103,7 @@ function TrekDash(props) {
 
       {displayMode === "dashboard" && (
         <div>
-          <h1 style={{ fontSize: "21px", fontWeight: "600" }}>
-            Welcome Back, {props.name ? props.name.split(" ")[0] : "Loading..."}
-          </h1>
+          
           <p
             style={{
               marginLeft: "10px",
@@ -145,7 +143,6 @@ function TrekDash(props) {
               </button>
             </p>
           </div>
-          <br/>
           <p
             style={{
               marginLeft: "20px",
@@ -159,11 +156,13 @@ function TrekDash(props) {
           
           <a onClick={showWatchDetails}><p style={{marginRight: "20px",
                 padding: "10px",
+                marginTop:"25px",
                 float: "right",
                 fontSize: "18px",
                 color: "blue",}}>
             Watch
-          </p></a>
+          </p>
+          </a>
           <br/>
           <br/>
           <div className="watch-content">
@@ -176,7 +175,7 @@ function TrekDash(props) {
           <div className="boxes-container">
             <div className="box3">
               <iframe
-                width="100%"
+                width="115%"
                 height="100%"
                 src="https://www.youtube.com/embed/EEvIG8KTAh8?autoplay=1&mute=1"
                 allow="autoplay"
@@ -184,7 +183,7 @@ function TrekDash(props) {
                 allowfullscreen
               ></iframe>
             </div>
-          </div>
+            </div>
           </div>
           <br />
           <br />
@@ -196,7 +195,7 @@ function TrekDash(props) {
             <p className="box1__description">
               <h2 style={{ fontWeight: "bold" }}>YATRA TRAVEL</h2> With Yatra,
               <br /> Grow Your Business <br />
-              Register your Travel Agency Now,
+                Register your Travel Agency Now,
               <br />
               <br />
               <button className="add-trek" onClick={showTrekDetails}>
@@ -208,6 +207,10 @@ function TrekDash(props) {
           <br />
         </div>
       )}
+      <br />
+          <br /><br />
+          <br /><br />
+          <br />
     </div>
   );
 }
