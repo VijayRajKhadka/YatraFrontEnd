@@ -6,10 +6,8 @@
     margin-top: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    height: 100%;
-    
+    height: 96%;
+    overflow: hidden;
     
 }
 
@@ -35,7 +33,7 @@ hr{
     overflow: scroll;
     overflow-x: hidden;
     width: 100%;
-    height: 100%;
+    height: 95%;
     scroll-behavior: smooth;
     background-color:rgb(216, 229, 231);
 }
@@ -47,7 +45,7 @@ hr{
     position: relative;
     width: 95%;
     margin-left: 20px;
-    height: 300px;
+    height: 390px;
     overflow: hidden; 
 
 }
@@ -104,7 +102,6 @@ div.polaroid {
     width: 284px;
     padding: 10px;
     background-color: white;
-    box-shadow: 10px 10px 5px #aaaaaa;
     transition: opacity 0.3s ease, transform 0.3s ease; 
     margin-left: 20px;
     float: left;
@@ -141,12 +138,24 @@ div.polaroid:hover{
 .nav-link{
     padding: 20px;
     font-weight: bold;
-    color: rgb(81, 77, 86);
     font-size: 20px;
 }
 .nav-link:hover{
-    color: rgb(127, 89, 173);
-    font-size: 20px;
     cursor: pointer;
-    
+    color: black;
+}
+.tab-navbar{
+    background-color: rgb(99, 127, 127);
+}
+.trek-content{
+    background-color: rgb(199, 222, 214);
+}
+.hover-link{
+    cursor: pointer;
+    float: right;
+    font-size: 18px;
+    color: rgb(10, 11, 11);
+}
+.hover-link:hover{
+    text-decoration: underline;
 }

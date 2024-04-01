@@ -23,9 +23,7 @@ const UserDash = () => {
     setDisplayMode('restaurant');
   }
   useEffect(() => {
-    if (!token) {
-      window.location.href = "/login";
-    } else {
+   
       fetch(BASE_URL + "user", {
         method: "GET",
         headers: {
@@ -40,7 +38,7 @@ const UserDash = () => {
           console.error("Error:", error);
         });
     }
-  }, [token]);
+  );
 
   return (
     <div className="body-container">
@@ -59,7 +57,7 @@ const UserDash = () => {
         <div className="tab-navbar">
       <ul class="nav nav-underline">
         <li class="nav-item">
-          <a class="nav-link " aria-current="page" onClick={showTrek}>Trek</a>
+          <a class="nav-link " style={{color:'black'}} aria-current="page" onClick={showTrek}>Trek</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" onClick={showPlace}>Places</a>

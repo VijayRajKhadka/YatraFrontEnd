@@ -29,7 +29,7 @@ function TrekDash(props) {
   };
 
   return (
-    <div>
+    <div className="trek-content">
       {displayMode==="trekDetails" &&(
         <div>
           <svg
@@ -110,18 +110,17 @@ function TrekDash(props) {
               padding: "10px",
               float: "left",
               fontSize: "20px",
+              
             }}
           >
             Explore Trek...
           </p>
           <a onClick={showTrekDetails}>
-            <p
+            <p className="hover-link"
               style={{
                 marginRight: "20px",
                 padding: "10px",
-                float: "right",
-                fontSize: "18px",
-                color: "blue",
+                
               }}
             >
               Explore
@@ -148,18 +147,17 @@ function TrekDash(props) {
               marginLeft: "20px",
               paddingTop: "30px",
               fontSize: "20px",
-              float:"left"
+              float:"left",
+             
             }}
           >
             Watch Latest Content...
           </p>
           
-          <a onClick={showWatchDetails}><p style={{marginRight: "20px",
+          <a onClick={showWatchDetails}><p className="hover-link" style={{marginRight: "20px",
                 padding: "10px",
                 marginTop:"25px",
-                float: "right",
-                fontSize: "18px",
-                color: "blue",}}>
+                }}>
             Watch
           </p>
           </a>
@@ -187,7 +185,7 @@ function TrekDash(props) {
           </div>
           <br />
           <br />
-          <p style={{ marginLeft: "20px", fontSize: "20px" }}>
+          <p style={{ marginLeft: "20px", fontSize: "20px", }}>
             Choose your Travel Partner...
           </p>
           <div className="box1">
@@ -208,8 +206,6 @@ function TrekDash(props) {
         </div>
       )}
       <br />
-          <br /><br />
-          <br /><br />
           <br />
     </div>
   );

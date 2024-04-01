@@ -8,10 +8,10 @@
 .image-container{
     position: relative;
     margin-top: 50px;
+    margin-left: 440px;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
 }
 .nav-container{
     position: sticky;
