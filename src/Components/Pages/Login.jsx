@@ -23,7 +23,6 @@ const Login = () => {
     {
         
         let data = { email,password}
-        console.warn(data);
         fetch(BASE_URL+"login", {
             method: "POST",
             headers: {
