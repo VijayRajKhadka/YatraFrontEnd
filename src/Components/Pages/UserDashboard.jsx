@@ -5,6 +5,7 @@ import Sidebar from "../sidebar";
 import TrekDash from "../Trek.js";
 import "../Css/UserDashboard.css";
 import PlaceDash from "../Place.js";
+import RestaurantDash from "../Restaurant.js";
 
 const UserDash = () => {
   const [userData, setUserData] = useState(null);
@@ -22,36 +23,12 @@ const UserDash = () => {
   const showRestaurant=()=>{
     setDisplayMode('restaurant');
   }
-  useEffect(() => {
-   
-      fetch(BASE_URL + "user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setUserData(data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
-  );
+
 
   return (
     <div className="body-container">
       <div className="sidebar">
-        <Sidebar
-          name={userData ? userData.name : "Loading..."}
-          image={
-            userData
-              ? userData.profile_url
-              : null
-          }
-          email={userData ? userData.email : "Loading..."}
-        />
+        <Sidebar />
       </div>
       <div className="main-content">
         <div className="tab-navbar">
@@ -76,6 +53,11 @@ const UserDash = () => {
         {displayDash === "place" && (
           <div>
           <PlaceDash/>
+          </div>
+        )}
+        {displayDash ==='restaurant' &&(
+          <div>
+          <RestaurantDash/>
           </div>
         )}
         </div>

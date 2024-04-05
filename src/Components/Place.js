@@ -5,18 +5,18 @@ import AddPlaceForm from "./AddPlaceForm";
 import ShowPlaceDetails from "./ShowPlaceDetails";
 
 
-function PlaceDash(props) {
+function PlaceDash() {
   const [displayMode, setDisplayMode] = useState("dashboard");
 
   const showPlaceForm = () => {
     setDisplayMode("addForm");
   };
 
-  const showTrekDetails = () => {
+  const showPlaceDetails = () => {
     setDisplayMode("trekDetails");
   };
 
-  const hideTrekForm = () => {
+  const hidePlaceForm = () => {
     setDisplayMode("dashboard");
   };
 
@@ -30,7 +30,7 @@ function PlaceDash(props) {
             height="40"
             fill="currentColor"
             viewBox="0 0 16 16"
-            onClick={hideTrekForm}
+            onClick={hidePlaceForm}
             className="back-button"
             style={{ float: "left" }}
           >
@@ -53,7 +53,7 @@ function PlaceDash(props) {
             height="40"
             fill="currentColor"
             viewBox="0 0 16 16"
-            onClick={hideTrekForm}
+            onClick={hidePlaceForm}
             className="back-button"
             style={{ float: "left" }}
           >
@@ -83,7 +83,7 @@ function PlaceDash(props) {
           >
             Explore Places...
           </p>
-          <a onClick={showTrekDetails}>
+          <a onClick={showPlaceDetails}>
             <p
               style={{
                 marginRight: "20px",

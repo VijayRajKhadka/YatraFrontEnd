@@ -17,13 +17,21 @@ function ShowPlaceDetails(){
     const [errors, setErrors] = useState(null);
     const [success, setSuccess] = useState(null);
     const [review, setReview]=useState("");
-
+    const [rateValue, setRangeValue] = useState(2.3);
+    const [showRating, setShowRating] = useState(false);
 
     
     useEffect(() => {
         searchPlaceData();
     }, []);
 
+    const handleRangeChange = (event) => {
+        setRangeValue(event.target.value);
+    };
+
+    const showRatingBox =() =>{
+        setShowRating(true);
+    }
     
     const searchPlaceData = () => {
         setIsLoading(true);
@@ -118,7 +126,39 @@ function ShowPlaceDetails(){
             console.error('Error in postReview:', error);
         }
     }
-
+const postRating = async () => {
+        try {
+            const userData = await UserInfo();
+            if (userData) {
+                const formData = new FormData();
+                formData.append('user_id', userData.id);
+                formData.append('place_id', selectedPlaceDetails.place_id);
+                formData.append('rating', rateValue);
+                
+                fetch(BASE_URL + "addPlaceFeedback", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(result => result.json())
+                .then(responseData => {
+                   if(responseData.success===false){
+                    setErrors(responseData.message);
+                   }
+                   else{
+                    setSuccess('Thank You For You Review');
+                    setErrors(null);
+                    setShowRating(false)
+                   }
+                   
+                });
+                
+            } else {
+                console.warn('User data is null');
+            }
+        } catch (error) {
+            console.error('Error in postReview:', error);
+        }
+    }
     return(
         <div>
             <div>
@@ -127,7 +167,7 @@ function ShowPlaceDetails(){
             <div>
                 <div className="overlay"></div>
                 <div className="choosen-container">
-                <div className="close-icon" onClick={() => setShowPlace(false)}>
+                <div className="close-icon" onClick={() => {setShowPlace(false); setShowRating(false);}}>
                     <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="26"
@@ -145,6 +185,32 @@ function ShowPlaceDetails(){
 
                     <div className="information">
                     <h2>{selectedPlaceDetails.name.toUpperCase()}</h2>
+                    <button class="btn btn-outline-primary" style={{float:"right", marginR:"20px", }} onClick={showRatingBox}>Rate This Place</button>
+
+                    {showRating && (
+                        <div
+                        className="ratingbox"
+                        
+                        >
+                        <p>{rateValue}</p>
+                        <input
+                            type="range"
+                            min="0"
+                            step={0.1}
+                            max="5"
+                            value={rateValue}
+                            onChange={handleRangeChange}
+                        />
+                        <br/>
+                        <br/>
+                        <button  onClick={() => setShowRating(false)} type="button" class="btn btn-outline-danger">
+                                        Cancel
+                                    </button>
+                                    <button  onClick={postRating} style={{ marginLeft:"20px"}} type="button" class="btn btn-outline-success">
+                                        Rate
+                                    </button>
+                        </div>
+                    )}
                     <GenerateStar rating={selectedPlace.avg_rating} /><p> { selectedPlace.avg_rating.toFixed(2)}</p>
 
                     <p>{selectedPlaceDetails.description}</p>

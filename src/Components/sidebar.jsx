@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Css/Sidebar.css";
 import logo from "./Assets/logo.png";
 import userlogo from "./Assets/user.png";
 import TokenLogout from "./Logout";
+import UserInfo from './UserInfo';
 
-const Sidebar = (props) => {
+const Sidebar = () => {
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = await UserInfo();
+      setUserData(userData);
+    };
+
+    fetchUserData();
+  }, []);
+
   return (
     <div className="sidebar">
       <Link to="/">
@@ -13,13 +25,17 @@ const Sidebar = (props) => {
       </Link>
 
       <div>
-        {props.image ? (
-          <img src={props.image} alt="Profile" className="profile-image" />
+        {userData && userData.profile_url ? (
+          <img
+            src={userData.profile_url}
+            alt="Profile"
+            className="profile-image"
+          />
         ) : (
           <img src={userlogo} alt="Profile" className="profile-image" />
         )}
-        <p className="username">{props.name}</p>
-        <p className="email">{props.email}</p>
+        <p className="username">{userData ? userData.name : 'Loading...'}</p>
+        <p className="email">{userData ? userData.email:'Loading...'}</p>
       </div>
 
       <ul class="list-group">

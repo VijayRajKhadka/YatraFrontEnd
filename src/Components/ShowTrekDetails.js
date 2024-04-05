@@ -19,9 +19,20 @@ function ShowTrekDetails() {
     const [review, setReview]=useState("");
 
     const [showTrek, setShowTrek] = useState(false);
+    
+    const [rateValue, setRangeValue] = useState(2.3);
+    const [showRating, setShowRating] = useState(false);
+
     useEffect(() => {
         fetchTrekData();
     }, []);
+    const handleRangeChange = (event) => {
+        setRangeValue(event.target.value);
+    };
+
+    const showRatingBox =() =>{
+        setShowRating(true);
+    }
 
     const fetchTrekData = () => {
         setIsLoading(true);
@@ -113,6 +124,39 @@ function ShowTrekDetails() {
             console.error('Error in postReview:', error);
         }
     }
+    const postRating = async () => {
+        try {
+            const userData = await UserInfo();
+            if (userData) {
+                const formData = new FormData();
+                formData.append('user_id', userData.id);
+                formData.append('trek_id', selectedTrekDetails.trek_id);
+                formData.append('rating', rateValue);
+                
+                fetch(BASE_URL + "addTrekFeedback", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(result => result.json())
+                .then(responseData => {
+                   if(responseData.success===false){
+                    setErrors(responseData.message);
+                   }
+                   else{
+                    setSuccess('Thank You For You Review');
+                    setErrors(null);
+                    setShowRating(false)
+                   }
+                   
+                });
+                
+            } else {
+                console.warn('User data is null');
+            }
+        } catch (error) {
+            console.error('Error in postReview:', error);
+        }
+    }
     return (
         <div>
             <div>
@@ -122,7 +166,7 @@ function ShowTrekDetails() {
             <div>
                 <div className="overlay"></div>
                 <div className="choosen-container">
-                <div className="close-icon" onClick={() => setShowTrek(false)}>
+                <div className="close-icon" onClick={() => {setShowTrek(false); setShowRating(false);}}>
                     <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="26"
@@ -140,15 +184,41 @@ function ShowTrekDetails() {
 
                     <div className="information">
                     <h2>{selectedTrekDetails.name.toUpperCase()}</h2>
+                    <button class="btn btn-outline-primary" style={{float:"right", marginR:"20px", }} onClick={showRatingBox}>Rate This Place</button>
+                    
+                    {showRating && (
+                        <div
+                        className="ratingbox"
+                        
+                        >
+                        <p>{rateValue}</p>
+                        <input
+                            type="range"
+                            min="0"
+                            step={0.1}
+                            max="5"
+                            value={rateValue}
+                            onChange={handleRangeChange}
+                        />
+                        <br/>
+                        <br/>
+                        <button  onClick={() => setShowRating(false)} type="button" class="btn btn-outline-danger">
+                                        Cancel
+                                    </button>
+                                    <button  onClick={postRating} style={{ marginLeft:"20px"}} type="button" class="btn btn-outline-success">
+                                        Rate
+                                    </button>
+                        </div>
+                    )}
                     <GenerateStar rating={selectedTrek.avg_rating} /><p> { selectedTrek.avg_rating.toFixed(2)}</p>
 
                     <p>{selectedTrekDetails.description}</p>
                     <hr/>
                     <a className="map-image" target="_blank" href={selectedTrekDetails.map_url}>
-    <div style={{position: 'relative', marginRight: "200px"}}>
-        <img src={selectedTrekDetails.map_url} style={{width: '300px', height: '350px', position: 'absolute', right: '-120px', top: '0'}} />
-    </div>
-</a>
+                    <div style={{position: 'relative', marginRight: "200px"}}>
+                        <img src={selectedTrekDetails.map_url} style={{width: '300px', height: '350px', position: 'absolute', right: '-120px', top: '0'}} />
+                    </div>
+                </a>
 
                     <p style={{fontWeight:"bold"}}><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pin-angle" viewBox="0 0 16 16">
                     <path d="M9.828.722a.5.5 0 0 1 .354.146l4.95 4.95a.5.5 0 0 1 0 .707c-.48.48-1.072.588-1.503.588-.177 0-.335-.018-.46-.039l-3.134 3.134a6 6 0 0 1 .16 1.013c.046.702-.032 1.687-.72 2.375a.5.5 0 0 1-.707 0l-2.829-2.828-3.182 3.182c-.195.195-1.219.902-1.414.707s.512-1.22.707-1.414l3.182-3.182-2.828-2.829a.5.5 0 0 1 0-.707c.688-.688 1.673-.767 2.375-.72a6 6 0 0 1 1.013.16l3.134-3.133a3 3 0 0 1-.04-.461c0-.43.108-1.022.589-1.503a.5.5 0 0 1 .353-.146m.122 2.112v-.002zm0-.002v.002a.5.5 0 0 1-.122.51L6.293 6.878a.5.5 0 0 1-.511.12H5.78l-.014-.004a5 5 0 0 0-.288-.076 5 5 0 0 0-.765-.116c-.422-.028-.836.008-1.175.15l5.51 5.509c.141-.34.177-.753.149-1.175a5 5 0 0 0-.192-1.054l-.004-.013v-.001a.5.5 0 0 1 .12-.512l3.536-3.535a.5.5 0 0 1 .532-.115l.096.022c.087.017.208.034.344.034q.172.002.343-.04L9.927 2.028q-.042.172-.04.343a1.8 1.8 0 0 0 .062.46z"/>
