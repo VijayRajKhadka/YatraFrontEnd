@@ -2,13 +2,14 @@ import {React,useState} from "react";
 import "./Css/AddTrekForm.css";
 import { BASE_URL } from "./Constants";
 import { TRY_URL } from "./Constants";
+import GetUserInfo from './UserInfo';
 
 
 function AddPlaceForm(){
 
     const [name, setName]=useState("");
     const [description, setDescription]=useState("");
-    const [location, setLoation]=useState("");
+    const [location, setLocation]=useState("");
     const [category, setCategory]=useState("");
     const [opentime, setOpenTime]=useState("");
     const [latitude, setLatitude]=useState("");
@@ -18,6 +19,7 @@ function AddPlaceForm(){
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState(null);
     const [image_errors, setImageErrors] = useState(null);
+    const [success, setSuccessMessage] = useState(null);
 
 
 
@@ -37,7 +39,12 @@ function AddPlaceForm(){
         }
 
     
-    function registerPlace() {
+    async function registerPlace() {
+
+        const userInfo = await GetUserInfo();
+
+        if(userInfo && userInfo.id){
+
         setIsLoading(true);
         const formData = new FormData();
         formData.append('name', name);
@@ -48,14 +55,17 @@ function AddPlaceForm(){
         formData.append('latitude', latitude);
         formData.append('longitude', longitude);
         formData.append('get_there', get_there);
+        formData.append('added_by',userInfo.id);
+
 
         for (let i = 0; i < images.length; i++) {
             formData.append('images[]', images[i]);
         }
+
         console.warn(images);
         console.warn(category);
 
-        fetch(BASE_URL + "addPlace", {
+        fetch(TRY_URL + "addPlace", {
             method: "POST",
             body: formData
         })
@@ -63,7 +73,20 @@ function AddPlaceForm(){
         .then(responseData => {
            if(responseData.success===false){
             setErrors(responseData.message);
-           }
+           }else{
+            setSuccessMessage('Place ' + name +' added successfully');
+            setErrors('');
+            setImageErrors('');
+            setName('');
+            setDescription('');
+            setLocation('');
+            setOpenTime('');
+            setLatitude('');
+            setLongitude('');
+            setGetThere('');
+            setCategory('');
+            setImages('');
+       }
            
         })
         .catch(error => {
@@ -76,7 +99,9 @@ function AddPlaceForm(){
         .finally(() => {
             setIsLoading(false);
         });
-    
+        }else{
+            setErrors("Unauthorized, Login Again")
+        }
 
     }
 return(
@@ -94,6 +119,13 @@ return(
        
         
         <div className="form-container">
+        {
+            success && (
+                <div className="success-container">
+                    {success}
+                </div>
+            )
+        }
         {errors && (
             <div className="error-container">
             <div className="invalid-error" role="alert">
@@ -117,7 +149,7 @@ return(
             </div>
             <div class="mb-3" >
                 <label for="location" class="form-label">Location</label>
-                <input type="text" class="form-control" value={location} onChange={(e)=>{setLoation(e.target.value)}} id="location" placeholder="eg. Kaski" required/>
+                <input type="text" class="form-control" value={location} onChange={(e)=>{setLocation(e.target.value)}} id="location" placeholder="eg. Kaski" required/>
             </div>
             <div class="mb-3" >
                 <label for="description" class="form-label">Description</label>

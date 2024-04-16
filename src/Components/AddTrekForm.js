@@ -1,12 +1,12 @@
 import {React,useState} from "react";
 import "./Css/AddTrekForm.css";
-import { BASE_URL } from "./Constants";
-
+import { TRY_URL } from "./Constants";
+import GetUserInfo from './UserInfo';
 function AddTrekForm(){
 
     const [name, setName]=useState("");
     const [description, setDescription]=useState("");
-    const [location, setLoation]=useState("");
+    const [location, setLocation]=useState("");
     const [category, setCategory]=useState("");
     const [altitude, setAltitude]=useState("");
     const [difficulty, setDifficulty]=useState("");
@@ -18,6 +18,7 @@ function AddTrekForm(){
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState(null);
     const [image_errors, setImageErrors] = useState(null);
+    const [success, setSuccessMessage] = useState(null);
 
 
 
@@ -47,8 +48,12 @@ function AddTrekForm(){
         imagediv.appendChild(newimg);
     }
     
-    function registerTrek() {
+    async function registerTrek()  {
+        const userInfo = await GetUserInfo();
+
+        if(userInfo && userInfo.id){
         setIsLoading(true);
+
         const formData = new FormData();
         formData.append('name', name);
         formData.append('description', description);
@@ -60,14 +65,15 @@ function AddTrekForm(){
         formData.append('emergency_no', emergency_no);
         formData.append('map_url', map_url);
         formData.append('budgetRange', budgetRange);
-
-        for (let i = 0; i < images.length; i++) {
+        formData.append('added_by',userInfo.id);
+        console.warn(userInfo.id);
+        for (let i = 0; i < images.length; i++) {  
             formData.append('images[]', images[i]);
         }
         console.warn(images);
         console.warn(formData);
 
-        fetch(BASE_URL + "addTrek", {
+        fetch(TRY_URL + "addTrek", {
             method: "POST",
             body: formData
         })
@@ -75,6 +81,21 @@ function AddTrekForm(){
         .then(responseData => {
            if(responseData.success===false){
             setErrors(responseData.message);
+           }else{
+                setSuccessMessage('Trek ' + name +' added successfully');
+                setErrors('');
+                setImageErrors('');
+                setName('');
+                setDescription('');
+                setLocation('');
+                setCategory('');
+                setAltitude('');
+                setDifficulty('');
+                setNoOfDays('');
+                setEmergencyNo('');
+                setMapUrl('');
+                setBudgetRange('');
+                setImages('');
            }
            
         })
@@ -88,6 +109,10 @@ function AddTrekForm(){
         .finally(() => {
             setIsLoading(false);
         });
+        }else{
+            setErrors("Unauthorized, Login Again")
+        }
+        
     
 
     }
@@ -106,6 +131,13 @@ return(
        
         
         <div className="form-container">
+        {
+            success && (
+                <div className="success-container">
+                    {success}
+                </div>
+            )
+        }
         {errors && (
             <div className="error-container">
             <div className="invalid-error" role="alert">
@@ -129,7 +161,7 @@ return(
             </div>
             <div class="mb-3" >
                 <label for="location" class="form-label">Location</label>
-                <input type="text" class="form-control" value={location} onChange={(e)=>{setLoation(e.target.value)}} id="location" placeholder="eg. Kaski" required/>
+                <input type="text" class="form-control" value={location} onChange={(e)=>{setLocation(e.target.value)}} id="location" placeholder="eg. Kaski" required/>
             </div>
             <div class="mb-3" >
                 <label for="description" class="form-label">Description</label>

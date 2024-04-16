@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import { BASE_URL } from "../Constants";
 import Sidebar from "../sidebar";
 import TrekDash from "../Trek.js";
 import "../Css/UserDashboard.css";
@@ -9,7 +7,6 @@ import RestaurantDash from "../Restaurant.js";
 
 const UserDash = () => {
   const [userData, setUserData] = useState(null);
-  const token = Cookies.get("token");
   const [displayDash, setDisplayMode] = useState("trek");
 
   const showPlace=()=>{

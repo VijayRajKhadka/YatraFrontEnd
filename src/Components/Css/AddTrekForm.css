@@ -72,6 +72,15 @@
     width: 100%;
   margin-bottom: 20px;
 }
+
+.success-container{
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: green;
+    color: white;
+    padding: 20px;
+    border: 10px;
+}
 #preview {
     display: flex; 
     flex-wrap: wrap; 
