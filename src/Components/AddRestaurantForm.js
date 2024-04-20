@@ -1,7 +1,6 @@
 import {React,useState} from "react";
 import "./Css/AddTrekForm.css";
 import { BASE_URL } from "./Constants";
-import { TRY_URL } from "./Constants";
 import GetUserInfo from './UserInfo';
 
 
@@ -32,13 +31,13 @@ function AddRestaurantForm(){
         for (let i = 0; i < event.target.files.length; i++) {
             var image = URL.createObjectURL(event.target.files[i]);
             var imgContainer = document.createElement("div");
-            imgContainer.className = "image-container";
+            imgContainer.className = "preview-image-container"; // Changed class name here
             var newimg = document.createElement("img");
             newimg.src = image;
             imgContainer.appendChild(newimg);
             imagediv.appendChild(imgContainer);
-            }
         }
+    }
 
     
     async function registerPlace() {
@@ -68,7 +67,7 @@ function AddRestaurantForm(){
         console.warn(category);
         console.warn(affordibility);
         console.warn(formData);
-        fetch(TRY_URL + "addRestaurant", {
+        fetch(BASE_URL + "addRestaurant", {
             method: "POST",
             body: formData
         })
@@ -77,7 +76,7 @@ function AddRestaurantForm(){
            if(responseData.success===false){
             setErrors(responseData.message);
            }else{
-            setSuccessMessage('Place ' + name +' added successfully');
+            setSuccessMessage('Place ' + name +' added successfully and is sent for review');
             setErrors('');
             setImageErrors('');
             setName('');
@@ -200,7 +199,7 @@ return(
 
             </div>
 
-            <div id="preview"></div>
+            <div id="preview" className="preview-container"></div>
             
             <br/>
             <br/>

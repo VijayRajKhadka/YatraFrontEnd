@@ -7,6 +7,7 @@ import TavelAgency from "./Assets/travelagency.jpg";
 import AddTrekForm from "./AddTrekForm";
 import ShowTrekDetails from "./ShowTrekDetails";
 import ShowWatchContentDetails from "./WatchContent";
+import AddAgencyForm from "./AddAgencyForm";
 
 
 function TrekDash(props) {
@@ -27,6 +28,9 @@ function TrekDash(props) {
   const hideTrekForm = () => {
     setDisplayMode("dashboard");
   };
+  const showTravelAgencyForm =()=>{
+    setDisplayMode("AgencyForm");
+  }
 
   return (
     <div className="trek-content">
@@ -74,6 +78,29 @@ function TrekDash(props) {
             Let's Start Adding Your Journey To Yatra
           </h1>
           <AddTrekForm />
+        </div>
+      )}
+      {displayMode === "AgencyForm" && (
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="40"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+            onClick={hideTrekForm}
+            className="back-button"
+            style={{ float: "left" }}
+          >
+            <path
+              fillRule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+            />
+          </svg>
+          <h1 style={{ textAlign: "center" }}>
+            Let's Start Adding Your Travel Business To yatra
+          </h1>
+          <AddAgencyForm />
         </div>
       )}
       {displayMode === "watchContent" && (
@@ -196,7 +223,7 @@ function TrekDash(props) {
                 Register your Travel Agency Now,
               <br />
               <br />
-              <button className="add-trek" onClick={showTrekDetails}>
+              <button className="add-trek" onClick={showTravelAgencyForm}>
                 REGISTER AGENCY
               </button>
             </p>

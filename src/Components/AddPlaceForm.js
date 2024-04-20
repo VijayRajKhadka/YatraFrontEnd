@@ -30,13 +30,13 @@ function AddPlaceForm(){
         for (let i = 0; i < event.target.files.length; i++) {
             var image = URL.createObjectURL(event.target.files[i]);
             var imgContainer = document.createElement("div");
-            imgContainer.className = "image-container";
+            imgContainer.className = "preview-image-container"; // Changed class name here
             var newimg = document.createElement("img");
             newimg.src = image;
             imgContainer.appendChild(newimg);
             imagediv.appendChild(imgContainer);
-            }
         }
+    }
 
     
     async function registerPlace() {
@@ -206,7 +206,7 @@ return(
 
             </div>
 
-            <div id="preview"></div>
+            <div id="preview" className="preview-container"></div>
             
             <br/>
             <br/>

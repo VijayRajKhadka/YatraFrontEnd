@@ -88,12 +88,24 @@
   
 .image-container {
     width: calc(33.33% - 20px); 
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin:20px
   }
   
   .image-container img {
     width: 100%; 
   }
 
+  .preview-container {
+    width: 100%; 
+    max-height: 300px; 
+    overflow-y: auto; 
+}
 
+.preview-image-container {
+    margin-bottom: 10px; 
+}
+
+.preview-image-container img {
+    max-width: 100%; 
+    max-height: 100%; 
+}

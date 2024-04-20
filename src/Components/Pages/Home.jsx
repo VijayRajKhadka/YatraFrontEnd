@@ -51,7 +51,7 @@ const Home = () => {
             </div>
             </div>
             <div className='content-container'>
-                <div className='image-container'>
+                <div className='head-container'>
                     <h1 style={{fontSize:"100px", fontWeight:"bold", color:"white", fontFamily:"cursive"}}>YATRA</h1>
                 </div>
                 <div className='intro-content'>

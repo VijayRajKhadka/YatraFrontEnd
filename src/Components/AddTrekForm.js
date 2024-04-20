@@ -23,19 +23,20 @@ function AddTrekForm(){
 
 
     function getImagePreview(event) {
-    var imagediv = document.getElementById("preview");
-    imagediv.innerHTML = "";
-
-    for (let i = 0; i < event.target.files.length; i++) {
-        var image = URL.createObjectURL(event.target.files[i]);
-        var imgContainer = document.createElement("div");
-        imgContainer.className = "image-container";
-        var newimg = document.createElement("img");
-        newimg.src = image;
-        imgContainer.appendChild(newimg);
-        imagediv.appendChild(imgContainer);
+        var imagediv = document.getElementById("preview");
+        imagediv.innerHTML = "";
+    
+        for (let i = 0; i < event.target.files.length; i++) {
+            var image = URL.createObjectURL(event.target.files[i]);
+            var imgContainer = document.createElement("div");
+            imgContainer.className = "preview-image-container"; // Changed class name here
+            var newimg = document.createElement("img");
+            newimg.src = image;
+            imgContainer.appendChild(newimg);
+            imagediv.appendChild(imgContainer);
         }
     }
+    
 
     function getMapPreview(event) {
    
@@ -82,7 +83,7 @@ function AddTrekForm(){
            if(responseData.success===false){
             setErrors(responseData.message);
            }else{
-                setSuccessMessage('Trek ' + name +' added successfully');
+                setSuccessMessage('Trek ' + name +' added successfully and is sent for review');
                 setErrors('');
                 setImageErrors('');
                 setName('');
@@ -210,25 +211,26 @@ return(
             <br/>
             <br/>
             <div class="mb-3">
-                    <span style={{color:"red"}}>Note*: Ensure size of map and images total are Maximum of 40 MB size.</span>
-                    <br/>
-                    <br/>
-                    <label for="formFile" class="form-label">Trek Images (Mulitple If Possible)</label>
-                    <input 
-                        class="form-control" 
-                        type="file" 
-                        onChange={(e) => { 
-                            const files = e.target.files;  
-                                setImages(Array.from(files)); 
-                                getImagePreview(e);
-                        }} 
-                        id="formFile" 
-                        multiple 
-                    />
-
+                <span style={{color:"red"}}>Note*: Ensure size of map and images total are Maximum of 40 MB size.</span>
+                <br/>
+                <br/>
+                <label htmlFor="formFile" className="form-label">Trek Images (Multiple If Possible)</label>
+                <input 
+                    className="form-control" 
+                    type="file" 
+                    onChange={(e) => { 
+                        const files = e.target.files;  
+                        setImages(Array.from(files)); 
+                        getImagePreview(e);
+                    }} 
+                    id="formFile" 
+                    multiple 
+                />
+                <div id="preview" className="preview-container"></div>
             </div>
 
-            <div id="preview"></div>
+
+            
 
             
 

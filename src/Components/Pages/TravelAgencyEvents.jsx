@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../sidebar";
 import "../Css/UserDashboard.css";
 import UserInfo from '../UserInfo';
-import RestInfo from '../VerifyRestaurant';
+import AgencyInfo from '../VerifyAgency';
 import { BASE_URL } from "../Constants";
 import Notify from "../SendNotification";
 import DatePicker from "react-datepicker";
@@ -11,16 +11,15 @@ import "react-datepicker/dist/react-datepicker.css"
 
 const RestaurantEvents = () => {
     const [userData, setUserData] = useState(null);
-    const [restaurants, setRestaurants] = useState([]);
+    const [agencies, setAgencies] = useState([]);
     const [showForm, setShowForm] = useState(false);
-    const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+    const [selectedAgency, setSelectedAgency] = useState(null);
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [file, setFile] = useState(null);
     const [isChecked, setIsChecked] = useState(false); 
-    const [startTime, setStartTime] = useState(null);
-    const [endTime, setEndTime] = useState(null);
-
+    const [startTime, setStartTime] = useState('');
+    const [endTime, setEndTime] = useState('')
     const [errors, setErrors] = useState(null);
     const [image_errors, setImageErrors] = useState(null);
     const [success, setSuccessMessage] = useState(null);
@@ -31,8 +30,8 @@ const RestaurantEvents = () => {
             try {
                 const userData = await UserInfo();
                 setUserData(userData);
-                const restaurantData = await RestInfo(userData.id);
-                setRestaurants(restaurantData);
+                const agencyData = await AgencyInfo(userData.id);
+                setAgencies(agencyData);
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
@@ -49,22 +48,25 @@ const RestaurantEvents = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+       
         setIsLoading(true);
+        
         const formattedStartTime = startTime ? new Date(startTime).toISOString().slice(0, 19).replace("T", " ") : '';
         const formattedEndTime = endTime ? new Date(endTime).toISOString().slice(0, 19).replace("T", " ") : '';
 
         const formData = new FormData();
-        formData.append('name', selectedRestaurant.name);
-        formData.append('location', selectedRestaurant.location);
-        formData.append('open_time', selectedRestaurant.opentime);
-        formData.append('restaurant_id', selectedRestaurant.id);
+        formData.append('name', selectedAgency.name);
+        formData.append('location', selectedAgency.location);
+        formData.append('email', selectedAgency.email);
+        formData.append('contact_no', selectedAgency.contact_no);
+        formData.append('agency_id', selectedAgency.id);
         formData.append('start_time', formattedStartTime);
         formData.append('end_time', formattedEndTime);
         formData.append('title', title);
         formData.append('body', body);
         formData.append('event_image_path',file);
         
-        fetch(BASE_URL + "addRestaurantEvent", {
+        fetch(BASE_URL + "addTravelEvent", {
             method: "POST",
             body: formData
         })
@@ -82,7 +84,7 @@ const RestaurantEvents = () => {
                 setFile(null);
                 setShowForm(false);
                 setTitle('');
-                setSelectedRestaurant(null);
+                setSelectedAgency(null);
                 setBody('');
                 setStartTime('');
                 setEndTime('');
@@ -108,7 +110,7 @@ const RestaurantEvents = () => {
                 <Sidebar />
             </div>
             <div className="main-content" style={{ maxHeight: "calc(100vh)", overflowY: "auto" }}>
-                <h2 style={{ padding: "20px" }}>Restaurant Events</h2>
+                <h2 style={{ padding: "20px" }}>Travel Events</h2>
             {isLoading && (
                 <div className="loader-container">
                     
@@ -141,7 +143,7 @@ const RestaurantEvents = () => {
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
                                 Selected Restaurant: 
-                                <h4>{selectedRestaurant.name}</h4>
+                                <h4>{selectedAgency.name}</h4>
 
                             </div>
                             <div className="mb-3">
@@ -219,24 +221,25 @@ const RestaurantEvents = () => {
                 <table className="table table-bordered table-striped">
                     <thead className="table-dark">
                         <tr>
+                            <th className="p-3">Agency</th>
                             <th className="p-3">Name</th>
                             <th className="p-3">Location</th>
-                            <th className="p-3">Category</th>
-                            <th className="p-3">Affordability</th>
-                            <th className="p-3">Open Time</th>
+                            <th className="p-3">Email</th>
+                            <th className="p-3">Contact</th>
                             <th className="p-3">Add Event</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {restaurants.map(restaurant => (
-                            <tr key={restaurant.restaurant_id}>
-                                <td className="p-3">{restaurant.name}</td>
-                                <td className="p-3">{restaurant.location}</td>
-                                <td className="p-3">{restaurant.category}</td>
-                                <td className="p-3">{restaurant.affordability}</td>
-                                <td className="p-3">{restaurant.open_time}</td>
-                                <td className="p-3">
-                                    <button className="btn btn-primary" onClick={() => { setShowForm(true); setSelectedRestaurant({ name: restaurant.name, id: restaurant.restaurant_id, location: restaurant.location,opentime: restaurant.open_time }); }}>Add Event</button>
+                        {agencies.map(agency => (
+                            <tr key={agency.agency_id}>
+                                <td><img src={agency.agency_image_url} width={100} height={100}/></td>
+                                <td>{agency.name}</td>
+                                <td>{agency.location}</td>
+                                <td>{agency.email}</td>
+                                <td>{agency.contact_no}</td>
+                                <td>
+                                    <button className="btn btn-primary" onClick={() => { setShowForm(true); setSelectedAgency({ name: agency.name, email: agency.email,contact_no:agency.contact_no,id: agency.agency_id, location: agency.location}); }}>Add Event</button>
+                                    <br/>
                                 </td>
                             </tr>
                         ))}

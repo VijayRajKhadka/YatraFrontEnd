@@ -5,11 +5,14 @@ import logo from "./Assets/logo.png";
 import userlogo from "./Assets/user.png";
 import TokenLogout from "./Logout";
 import UserInfo from './UserInfo';
-import RestInfo from './VerifyRestaurant'
+import RestInfo from './VerifyRestaurant';
+import AgencyInfo from './VerifyAgency'
 
 const Sidebar = () => {
   const [userData, setUserData] = useState(null);
   const [restaurants, setRestaurants] = useState(null);
+  const [agency, setAgency] = useState(null);
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -17,8 +20,9 @@ const Sidebar = () => {
         const userData = await UserInfo();
         setUserData(userData);
         const restaurantData = await RestInfo(userData.id);
-        console.log(restaurantData);
         setRestaurants(restaurantData);
+        const agencyData= await  AgencyInfo(userData.id);
+        setAgency(agencyData);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -69,6 +73,14 @@ const Sidebar = () => {
               <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5m2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5"/>
             </svg>
             &nbsp;&nbsp; Restaurant Events
+          </a>
+        )}
+        {agency && (
+          <a href="/agencyEvents"  class="nav-link-dash">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-airplane" viewBox="0 0 16 16">
+              <path d="M6.428 1.151C6.708.591 7.213 0 8 0s1.292.592 1.572 1.151C9.861 1.73 10 2.431 10 3v3.691l5.17 2.585a1.5 1.5 0 0 1 .83 1.342V12a.5.5 0 0 1-.582.493l-5.507-.918-.375 2.253 1.318 1.318A.5.5 0 0 1 10.5 16h-5a.5.5 0 0 1-.354-.854l1.319-1.318-.376-2.253-5.507.918A.5.5 0 0 1 0 12v-1.382a1.5 1.5 0 0 1 .83-1.342L6 6.691V3c0-.568.14-1.271.428-1.849m.894.448C7.111 2.02 7 2.569 7 3v4a.5.5 0 0 1-.276.447l-5.448 2.724a.5.5 0 0 0-.276.447v.792l5.418-.903a.5.5 0 0 1 .575.41l.5 3a.5.5 0 0 1-.14.437L6.708 15h2.586l-.647-.646a.5.5 0 0 1-.14-.436l.5-3a.5.5 0 0 1 .576-.411L15 11.41v-.792a.5.5 0 0 0-.276-.447L9.276 7.447A.5.5 0 0 1 9 7V3c0-.432-.11-.979-.322-1.401C8.458 1.159 8.213 1 8 1s-.458.158-.678.599"/>
+            </svg>
+            &nbsp;&nbsp; Travel Agency Events
           </a>
         )}
 
