@@ -24,7 +24,13 @@ const RestaurantEvents = () => {
     const [image_errors, setImageErrors] = useState(null);
     const [success, setSuccessMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [showGuideForm, setShowGuideForm] = useState(false);
+    const [guidefile, setGuideFile] = useState(null);
+    const [guideName, setGuideName] = useState('');
+    const [guideDesc, setGuideDesc] = useState('');
+    const [guideContact, setGuideContact] = useState('');
 
+    
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -51,8 +57,12 @@ const RestaurantEvents = () => {
        
         setIsLoading(true);
         
-        const formattedStartTime = startTime ? new Date(startTime).toISOString().slice(0, 19).replace("T", " ") : '';
-        const formattedEndTime = endTime ? new Date(endTime).toISOString().slice(0, 19).replace("T", " ") : '';
+        const startTimeWith6Hours = startTime ? new Date(startTime).getTime() + (6 * 60 * 60 * 1000) : null;
+        const endTimeWith6Hours = endTime ? new Date(endTime).getTime() + (6 * 60 * 60 * 1000) : null;
+
+        const formattedStartTime = startTimeWith6Hours ? new Date(startTimeWith6Hours).toISOString().slice(0, 19).replace("T", " ") : '';
+        const formattedEndTime = endTimeWith6Hours ? new Date(endTimeWith6Hours).toISOString().slice(0, 19).replace("T", " ") : '';
+
 
         const formData = new FormData();
         formData.append('name', selectedAgency.name);
@@ -88,6 +98,52 @@ const RestaurantEvents = () => {
                 setBody('');
                 setStartTime('');
                 setEndTime('');
+
+           }
+           
+        })
+        .catch(error => {
+            if (error && error.response && error.response.status === 413) {
+                setImageErrors('Content Too Large, Try Uploading Small Images');
+            } else {
+                setImageErrors('Error:',error);
+            }
+        })
+        .finally(() => {
+            setIsLoading(false);
+        });
+    };
+
+    const addGuide = (event) => {
+        event.preventDefault();
+        setIsLoading(true);
+        
+
+        const formData = new FormData();
+        formData.append('agency_id', selectedAgency.id);
+        formData.append('name', guideName);
+        formData.append('contact', guideContact);
+        formData.append('profile_url', guidefile);
+        formData.append('experience', guideDesc);
+        
+        fetch(BASE_URL + "addGuide", {
+            method: "POST",
+            body: formData
+        })
+        .then(result => result.json())
+        .then(responseData => {
+           if(responseData.success===false){
+            setErrors(responseData.message);
+           }else{         
+                setSuccessMessage('Guide ' + guideName +' added successfully');
+
+                setErrors('');
+                setGuideFile(null);
+                setShowGuideForm(false);
+                setGuideName('');
+                setSelectedAgency(null);
+                setGuideContact('');
+                setGuideDesc('');
 
            }
            
@@ -142,7 +198,7 @@ const RestaurantEvents = () => {
                         <br/>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
-                                Selected Restaurant: 
+                                Selected Travel Agency: 
                                 <h4>{selectedAgency.name}</h4>
 
                             </div>
@@ -218,6 +274,44 @@ const RestaurantEvents = () => {
                         </form>
                     </div>
                 )}
+                {showGuideForm &&(
+                    <div style={{padding:"50px"}}>
+                    <h3>Let's Add Your Guide</h3>
+                    <br/>
+                    <form onSubmit={addGuide}>
+                        <div className="mb-3">
+                            Selected Travel Agency: 
+                            <h4>{selectedAgency.name}</h4>
+
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="titleInput" className="form-label">Guide Name:</label>
+                            <input type="text" className="form-control" id="titleInput" placeholder="Name of Guide" value={guideName} onChange={(e) => setGuideName(e.target.value)}  required/>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="titleInput" className="form-label">Guide Contact:</label>
+                            <input type="text" className="form-control" id="titleInput" placeholder="Email or Phone Number" value={guideContact} onChange={(e) => setGuideContact(e.target.value)} required />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="titleInput" className="form-label">About Guide:</label>
+                            <textarea type="text" className="form-control" id="titleInput" placeholder="About Guide Experience and Qualification" value={guideDesc} onChange={(e) => setGuideDesc(e.target.value)} required />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="fileInput" className="form-label">Choose Guide Profile Image:</label>
+                            <input type="file" className="form-control" id="fileInput" onChange={(e) => { 
+                            const guidefile = e.target.files[0]; 
+                                if (guidefile) {    
+                                    setGuideFile(guidefile); 
+                                }
+                        
+                        }}   />
+                        </div>
+                       
+
+                        <button type="submit" className="btn btn-primary">Add you Guide</button>
+                    </form>
+                </div>
+                )}
                 <table className="table table-bordered table-striped">
                     <thead className="table-dark">
                         <tr>
@@ -238,7 +332,11 @@ const RestaurantEvents = () => {
                                 <td>{agency.email}</td>
                                 <td>{agency.contact_no}</td>
                                 <td>
-                                    <button className="btn btn-primary" onClick={() => { setShowForm(true); setSelectedAgency({ name: agency.name, email: agency.email,contact_no:agency.contact_no,id: agency.agency_id, location: agency.location}); }}>Add Event</button>
+                                    <button className="btn btn-primary" onClick={() => { setShowForm(true); setSelectedAgency({ name: agency.name, email: agency.email,contact_no:agency.contact_no,id: agency.agency_id, location: agency.location}); }}>Add Event </button>
+                                    <br/>
+                                    <br/>
+                                    <button className="btn btn-primary" onClick={() => { setShowGuideForm(true); setSelectedAgency({ name: agency.name,id: agency.agency_id}); }}>Add Guide</button>
+
                                     <br/>
                                 </td>
                             </tr>

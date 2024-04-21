@@ -86,6 +86,12 @@ const Login = () => {
             <button type="button" onClick={loginUser} class="btn btn-outline-primary">Login</button>
             </div>
             <br/>
+            <p className="no-account">
+            view our{" "}
+            <a href="https://www.termsfeed.com/live/47e72c29-c880-4a57-82ee-a954e4658f27" target="_blank" rel="noopener noreferrer" style={{ color: "blue", cursor: "pointer",textDecoration: "italic" }}>
+                Privary policy
+            </a>
+            </p>
             <p className="no-account">Don't have an account yet? <Link to="/signup" style={{ color: 'blue', cursor: 'pointer' }}>Signup</Link></p>
             </div>
             

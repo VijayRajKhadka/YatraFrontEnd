@@ -50,8 +50,12 @@ const RestaurantEvents = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         setIsLoading(true);
-        const formattedStartTime = startTime ? new Date(startTime).toISOString().slice(0, 19).replace("T", " ") : '';
-        const formattedEndTime = endTime ? new Date(endTime).toISOString().slice(0, 19).replace("T", " ") : '';
+        const startTimeWith6Hours = startTime ? new Date(startTime).getTime() + (6 * 60 * 60 * 1000) : null;
+        const endTimeWith6Hours = endTime ? new Date(endTime).getTime() + (6 * 60 * 60 * 1000) : null;
+
+        const formattedStartTime = startTimeWith6Hours ? new Date(startTimeWith6Hours).toISOString().slice(0, 19).replace("T", " ") : '';
+        const formattedEndTime = endTimeWith6Hours ? new Date(endTimeWith6Hours).toISOString().slice(0, 19).replace("T", " ") : '';
+
 
         const formData = new FormData();
         formData.append('name', selectedRestaurant.name);

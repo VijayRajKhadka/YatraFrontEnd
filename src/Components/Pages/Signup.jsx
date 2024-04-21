@@ -121,11 +121,17 @@ const Signup = () => {
 />
 <p id="file-name"></p>
 
-        
+
          <div className="d-grid gap-2 col-12 mx-auto">
             <button type="button" onClick={registerUser} className="btn btn-outline-primary">Register</button>
         </div>
         <br/>
+        <p className="no-account">
+            view our{" "}
+            <a href="https://www.termsfeed.com/live/47e72c29-c880-4a57-82ee-a954e4658f27" target="_blank" rel="noopener noreferrer" style={{ color: "blue", cursor: "pointer",textDecoration: "italic" }}>
+                Privary policy
+            </a>
+            </p>
         <p className="no-account">already have account? <Link to="/login" style={{ color: 'blue', cursor: 'pointer' }}>Login</Link></p>
     </div>
 </div>
