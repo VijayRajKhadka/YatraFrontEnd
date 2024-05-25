@@ -1,8 +1,9 @@
 import {React,useState} from "react";
 import "./Css/AddTrekForm.css";
-import { TRY_URL } from "./Constants";
+import { BASE_URL } from "./Constants";
 import GetUserInfo from './UserInfo';
-function AddTrekForm(){
+
+const AddTrekForm=()=>{
 
     const [name, setName]=useState("");
     const [description, setDescription]=useState("");
@@ -74,7 +75,7 @@ function AddTrekForm(){
         console.warn(images);
         console.warn(formData);
 
-        fetch(TRY_URL + "addTrek", {
+        fetch(BASE_URL + "addTrek", {
             method: "POST",
             body: formData
         })

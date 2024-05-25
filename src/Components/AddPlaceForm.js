@@ -1,7 +1,6 @@
 import {React,useState} from "react";
 import "./Css/AddTrekForm.css";
 import { BASE_URL } from "./Constants";
-import { TRY_URL } from "./Constants";
 import GetUserInfo from './UserInfo';
 
 
@@ -65,7 +64,7 @@ function AddPlaceForm(){
         console.warn(images);
         console.warn(category);
 
-        fetch(TRY_URL + "addPlace", {
+        fetch(BASE_URL + "addPlace", {
             method: "POST",
             body: formData
         })

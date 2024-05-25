@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Css/AddTrekForm.css";
-import { TRY_URL } from "./Constants";
+import { BASE_URL } from "./Constants";
 import GetUserInfo from './UserInfo';
 
 function AddAgencyForm() {
@@ -10,7 +10,7 @@ function AddAgencyForm() {
     const [contact, setContact] = useState("");
     const [registrationNumber, setRegistrationNumber] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [errors, setErrors] = useState(null);
+    const [errors, setErrors] = useState({});
     const [success, setSuccessMessage] = useState(null);
     const [documentUrl, setDocumentUrl]=useState("");
     const [imageUrl, setImageUrl]=useState("");
@@ -54,7 +54,7 @@ function AddAgencyForm() {
             formData.append('agency_image_url', imageUrl);
             formData.append('added_by', userInfo.id);
 
-            fetch(TRY_URL + "addAgency", {
+            fetch(BASE_URL + "addAgency", {
                 method: "POST",
                 body: formData
             })
@@ -102,17 +102,16 @@ function AddAgencyForm() {
                         {success}
                     </div>
                 )}
-                {errors && (
-                    <div className="error-container">
-                    <div className="invalid-error" role="alert">
-                    {Object.keys(errors).map(key => (
+                {Object.keys(errors).map(key => (
+                    Array.isArray(errors[key]) ? (
                         errors[key].map((message, index) => (
                             <div key={key + index}>{message}</div>
                         ))
-                    ))}
-                </div>
-                </div>
-                )}
+                    ) : (
+                        <div key={key}>{errors[key]}</div>
+                    )
+                ))}
+
                 <div style={{width:"100%"}}>
                     <div className="mb-3">
                         <label htmlFor="agencyName" className="form-label">Agency Name</label>

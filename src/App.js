@@ -6,18 +6,18 @@ import UserDashboard from './Components/Pages/UserDashboard';
 import RestaurantEvents from './Components/Pages/RestaurantEvents';
 import AgencyEvents from './Components/Pages/TravelAgencyEvents';
 import Settings from './Components/Pages/Settings';
-
-import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-
-import { Routes ,Route , Navigate} from 'react-router-dom';
+import { Routes ,Route} from 'react-router-dom';
+import TrekFormPage from './Components/Pages/TrekFormPage';
+import PlaceFormPage from './Components/Pages/PlaceFormPage';
+import RestaurantFormPage from './Components/Pages/RestaurantFormPage';
 
 const App = () => {
   const authenticated = Cookies.get("token");
  
   return (
     <Routes>
-      
+     
       <Route path='/' element={<Home/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/signup' element={<Signup/>}/>
@@ -25,6 +25,11 @@ const App = () => {
       <Route path='/agencyEvents' element={authenticated?<AgencyEvents/>:<Login/>}/>
       <Route path='/settings' element={authenticated?<Settings/>:<Login/>}/>
       <Route path='/userDashboard' element={authenticated?<UserDashboard/>:<Login/>}/>
+      <Route path='/addTrek' element={authenticated?<TrekFormPage/>:<Login/>}/>
+      <Route path='/addPlace' element={authenticated?<PlaceFormPage/>:<Login/>}/>
+      <Route path='/addRestaurant' element={authenticated?<RestaurantFormPage/>:<Login/>}/>
+
+
     </Routes>
   )
 };

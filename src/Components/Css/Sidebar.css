@@ -31,7 +31,6 @@
 }
 .username {
     position: relative;
-
     color: rgb(85, 81, 185);
     font-size: 18px;
     text-align: center;
@@ -40,12 +39,12 @@
     padding-top: 10px;
     font-weight: bold;
 }
+
 .email{
     position: relative;
 
     color: rgb(155, 153, 200);
     font-size: 15px;
-    margin-left: 20px;
     text-align: center;
     white-space: nowrap;   
 }

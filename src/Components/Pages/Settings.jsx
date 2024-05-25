@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../sidebar";
 import "../Css/UserDashboard.css";
 import UserInfo from '../UserInfo';
-import { TRY_URL } from "../Constants";
+import { BASE_URL } from "../Constants";
 
 const Settings = () => {
   const [displayDash, setDisplayMode] = useState("trek");
@@ -29,7 +29,7 @@ const Settings = () => {
         formData.append('new_password', newPassword);
         formData.append('confirm_password', confirmNewPassword);
 
-        fetch(TRY_URL + "changePassword", {
+        fetch(BASE_URL + "changePassword", {
             method: "POST",
             body: formData
         })
@@ -62,7 +62,7 @@ const Settings = () => {
         formData.append('id', userData.id);
         formData.append('new_profile', newProfile);
 
-        fetch(TRY_URL + "changeProfile", {
+        fetch(BASE_URL + "changeProfile", {
             method: "POST",
             body: formData
         })
